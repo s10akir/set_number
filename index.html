@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>:set number</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="main" class="container">
+      <h1>:set number</h1>
+      <p>行番号つけるやつ</p>
+
+      <textarea
+        v-model="code"
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        rows="20"
+      ></textarea>
+      <div class="my-2" v-html="formated"></div>
+    </div>
+
+    <script>
+      new Vue({
+        el: '#main',
+        data: {
+          code:
+            '祇園精舎の鐘の声、諸行無常の響きあり。\n沙羅双樹の花の色、盛者必衰の理をあらはす。\n奢れる人も久からず、ただ春の夜の夢のごとし。\n猛き者も遂にはほろびぬ、偏ひとへに風の前の塵におなじ。',
+        },
+        computed: {
+          formated() {
+            const codes = this.code.split('\n');
+            const length = codes.length < 100 ? 2 : 3;
+
+            const tmp = [];
+            codes.forEach((c, i) => {
+              num = `00${i + 1}`.slice(-length);
+              tmp.push(`${num}: ${c}`);
+            });
+
+            return tmp.join('<br />');
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
