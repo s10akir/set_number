@@ -37,7 +37,16 @@
         },
         computed: {
           formated() {
-            const codes = this.code.split('\n');
+            const escape = {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;',
+            };
+            const reg = new RegExp(Object.keys(escape).join('|'), 'g');
+
+            const codes = this.code.replace(reg, match => escape[match]).split('\n');
             const length = codes.length < 100 ? 2 : 3;
 
             const tmp = [];
