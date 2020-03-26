@@ -25,19 +25,30 @@
         id="exampleFormControlTextarea1"
         rows="20"
       ></textarea>
-      <div class="my-4" v-html="formated" style="white-space:pre;"></div>
+      <div class="my-4" v-html="formated" style="white-space: pre;"></div>
     </div>
 
     <script>
       new Vue({
-        el: '#main',
+        el: "#main",
         data: {
           code:
-            '祇園精舎の鐘の声、諸行無常の響きあり。\n沙羅双樹の花の色、盛者必衰の理をあらはす。\n奢れる人も久からず、ただ春の夜の夢のごとし。\n猛き者も遂にはほろびぬ、偏ひとへに風の前の塵におなじ。',
+            "祇園精舎の鐘の声、諸行無常の響きあり。\n沙羅双樹の花の色、盛者必衰の理をあらはす。\n奢れる人も久からず、ただ春の夜の夢のごとし。\n猛き者も遂にはほろびぬ、偏ひとへに風の前の塵におなじ。"
         },
         computed: {
           formated() {
-            const codes = this.code.split('\n');
+            const escape = {
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;"
+            };
+            const reg = new RegExp(Object.keys(escape).join("|"), "g");
+
+            const codes = this.code
+              .replace(reg, match => escape[match])
+              .split("\n");
             const length = codes.length < 100 ? 2 : 3;
 
             const tmp = [];
@@ -46,9 +57,9 @@
               tmp.push(`${num}: ${c}`);
             });
 
-            return tmp.join('<br />');
-          },
-        },
+            return tmp.join("<br />");
+          }
+        }
       });
     </script>
   </body>
